@@ -1,5 +1,6 @@
 window.onload = () => {
-    console.log(getElementsByTagName("canvas"));
+    console.log(document.getElementsByTagName("canvas"));
+    console.log(document.getElementsByTagName("canvas").length);
 }
 
 function preload() {
