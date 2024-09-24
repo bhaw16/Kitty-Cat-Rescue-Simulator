@@ -1,16 +1,11 @@
 var startButton, disclaimers, inventory;
 
-window.onload = () => {
-    console.log(document.getElementsByTagName("canvas"));
-    console.log(document.getElementsByTagName("canvas").length);
-}
-
 function preload() {
 
 }
 
 function setup() {
-    createCanvas(windowWidth, windowHeight);
+    createCanvas(500, 500);
     background("blue");
     startButton = new Sprite(width / 2, height / 2, 100, 50);
     startButton.color = "white";
@@ -18,8 +13,14 @@ function setup() {
 }
 
 function draw() {
+    //background("blue");
     if (startButton.mouse.presses()) {
         background("pink");
         startButton.pos = {x: -900, y: -900};
     }
+}
+
+window.onload = () => {
+    console.log(document.getElementsByTagName("canvas"));
+    console.log(document.getElementsByTagName("canvas").length);
 }
