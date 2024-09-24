@@ -5,7 +5,7 @@ function preload() {
 }
 
 function setup() {
-    createCanvas(500, 500);
+    createCanvas(windowWidth, windowHeight);
     background("blue");
     startButton = new Sprite(width / 2, height / 2, 100, 50);
     startButton.color = "white";
