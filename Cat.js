@@ -26,4 +26,13 @@ class Cat {
         this.needs = needs;
         sprite.debug = true;
     }
+
+    checkNeeds() {
+        for (var i = 0; i < needs.length; i++) {
+            if (needs[i].value != 100) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

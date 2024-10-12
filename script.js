@@ -13,11 +13,21 @@ function setup() {
 }
 
 function draw() {
-    //background("blue");
     if (startButton.mouse.presses()) {
         background("pink");
         startButton.pos = {x: -900, y: -900};
     }
+}
+
+function createGroup(length, color, y, diameter) {
+    var group = new Group();
+    group.y = y;
+    group.diameter = diameter;
+    group.color = color;
+    for (var i = 0; i < length; i++) {
+        new group.Sprite((i + 1) * 20);
+    }
+    return group;
 }
 
 window.onload = () => {

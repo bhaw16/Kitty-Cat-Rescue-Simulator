@@ -17,4 +17,11 @@ class Need {
         this.icon = icon;
         this.needBar = needBar;
     }
+
+    fillNeed(value) {
+        if (typeof(value) != "number") {
+            throw new TypeError("Error: Expected a number for value but received a different type.");
+        }
+        this.value += value;
+    }
 }
