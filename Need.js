@@ -30,7 +30,7 @@ class Need {
             throw new TypeError("Error: Expected a number for value but received a different type.");
         }
         this.value += value;
-        for (var i = 0; i < value / 5; i++) {
+        for (var i = 0; i < this.value / 5 + value / 5; i++) {
             this.needBar[i].color = "red";
         }
     }
