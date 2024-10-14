@@ -18,10 +18,20 @@ class Need {
         this.needBar = needBar;
     }
 
+    displayNeedBar(x, y) {
+        this.icon.pos = {x: x, y: y};
+        for (var i = 0; i < this.needBar.length; i++) {
+            this.needBar[i].pos = {x: this.needBar.x + (i + 10), y: y};
+        }
+    }
+
     fillNeed(value) {
         if (typeof(value) != "number") {
             throw new TypeError("Error: Expected a number for value but received a different type.");
         }
         this.value += value;
+        for (var i = 0; i < value / 5; i++) {
+            this.needBar[i].color = "red";
+        }
     }
 }
