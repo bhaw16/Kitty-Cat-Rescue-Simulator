@@ -25,7 +25,19 @@ class Inventory extends Array {
         if (index1 == -1 || index2 == -1) {
             throw new ItemsNotFoundError(item1, item2);
         }
-        this.splice(minIndex, 1, result);
-        this.splice(otherIndex, 1);
+        var minIndex = (index1 < index2) ? index1 : index2;
+        var otherIndex = (index1 == minIndex) ? index2 : index1;
+        this.splice(minIndex, 1, result);   //delete item at minimum index and insert combined item there
+        this.splice(otherIndex, 1); //delete item at greater index
     }
+
+    showInventory() {
+        
+    }
+
+    hideInventory() {
+
+    }
+
+
 }
