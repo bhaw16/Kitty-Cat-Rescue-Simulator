@@ -1,7 +1,7 @@
 class Cat {
     constructor(sprite, breed, hasMicrochip, needs) {
         if ((!(sprite instanceof Sprite))) {
-            throw new TypeError("Error: Expected a Sprite for sprite but received a different type.");
+            throw new TypeError("Error: Expected a Sprite for this Cat's sprite but received a different type.");
         }
         if (typeof(breed) != "string") {
             throw new TypeError("Error: Expected a string for breed but received a different type..");

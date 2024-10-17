@@ -1,7 +1,7 @@
 class Need {
     constructor(name, value, icon, needBar) {
         if (typeof(name) != "string") {
-            throw new TypeError("Error: Expected a string for name but received a different type.");
+            throw new TypeError("Error: Expected a string for this Need's name but received a different type.");
         }
         if (typeof(value) != "number") {
             throw new TypeError("Error: Expected a number for value but received a different type.");
