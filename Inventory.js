@@ -3,6 +3,21 @@ class Inventory extends Array {
         this.sprite = new Sprite(-500, -500, windowWidth - 50, windowHeight - 50, "none");
     }
 
+    constructor(array) {
+        if (!Array.isArray(array)) {
+            throw new TypeError("Error: Expected an array for this Inventory constructor's argument but received a different type.");
+        }
+        for (var i = 0; i < array.length; i++) {
+            if (!(array[i] instanceof Item)) {
+                throw new TypeError("Error: Expected an Item for item but received a different type.");
+            }
+            else {
+                this.push(array[i]);
+            }
+        }
+        this.sprite = new Sprite(-500, -500, windowWidth - 50, windowHeight - 50, "none");
+    }
+
     push(item) {
         if (!(item instanceof Item)) {
             throw new TypeError("Error: Expected an Item for item but received a different type.");
@@ -30,14 +45,4 @@ class Inventory extends Array {
         this.splice(minIndex, 1, result);   //delete item at minimum index and insert combined item there
         this.splice(otherIndex, 1); //delete item at greater index
     }
-
-    showInventory() {
-        
-    }
-
-    hideInventory() {
-
-    }
-
-
 }
