@@ -20,11 +20,17 @@ function setup() {
         new Item(treatSprite.text, treatSprite, "initial")
     ];
     inventory = new Inventory(initialItems);
+    inventory.sprite.color = "black";
     inventoryButton = new Sprite(-90, -90, 100, 100);
     inventoryButton.text = "inventory";
 }
 
 function draw() {
+    if (inventoryShowing) {
+        showInventory();
+    } else {
+        hideInventory();
+    } 
     if (startButton.mouse.presses()) {
         background("pink");
         changePos(startButton, -900, -900);
@@ -33,7 +39,6 @@ function draw() {
     if (inventoryButton.mouse.presses()) {
         inventoryShowing = !inventoryShowing;
         console.log(inventoryShowing);
-        if (inventoryShowing) {showInventory();} else {hideInventory();} 
     }
 }
 
@@ -68,10 +73,12 @@ function changeY(sprite, y) {
 
 function showInventory() {
     changePos(inventory.sprite, width / 2 + 50, 75);
+    console.log("inventory showing");
 }
 
 function hideInventory() {
-    changePos(inventory.sprite, -1000, -1000);
+    changePos(inventory.sprite, -9000, -9000);
+    console.log("inventory hidden");
 }
 
 window.onload = () => {
