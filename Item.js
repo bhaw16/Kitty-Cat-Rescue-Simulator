@@ -1,4 +1,5 @@
 class Item {
+    /*
     constructor(name, sprite) {
         if (typeof(name) != "string") {
             throw new TypeError("Error: Expected a string for this Item's name but received a different type.");
@@ -10,7 +11,7 @@ class Item {
         this.sprite = sprite;
         this.category = "";
     }
-
+    */
     constructor(name, sprite, category) {
         if (typeof(name) != "string") {
             throw new TypeError("Error: Expected a string for this Item's name but received a different type.");

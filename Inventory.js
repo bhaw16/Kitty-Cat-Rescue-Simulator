@@ -1,8 +1,9 @@
 class Inventory extends Array {
+    /*
     constructor() {
         this.sprite = new Sprite(-500, -500, windowWidth - 50, windowHeight - 50, "none");
     }
-
+    */
     constructor(array) {
         if (!Array.isArray(array)) {
             throw new TypeError("Error: Expected an array for this Inventory constructor's argument but received a different type.");
