@@ -7,7 +7,7 @@ function preload() {
 }
 
 function setup() {
-    createCanvas(windowWidth, windowHeight);
+    createCanvas(1500, 1500);
     background("blue");
     startButton = new Sprite(width / 2, height / 2, 100, 50);
     startButton.color = "white";
@@ -33,7 +33,7 @@ function draw() {
     if (inventoryButton.mouse.presses()) {
         inventoryShowing = !inventoryShowing;
         console.log(inventoryShowing);
-        (inventoryShowing) ? showInventory() : hideInventory(); 
+        if (inventoryShowing) {showInventory();} else {hideInventory();} 
     }
 }
 
@@ -71,7 +71,7 @@ function showInventory() {
 }
 
 function hideInventory() {
-    changePos(inventory.sprite, -500, -500);
+    changePos(inventory.sprite, -1000, -1000);
 }
 
 window.onload = () => {
