@@ -1,5 +1,6 @@
 var startButton, inventoryButton;
 var disclaimers, inventory;
+var inventoryShowing = false;
 
 function preload() {
 
@@ -29,6 +30,11 @@ function draw() {
         changePos(startButton, -900, -900);
         changePos(inventoryButton, width - 50, 20);
     }
+    if (inventoryButton.mouse.presses()) {
+        inventoryShowing = !inventoryShowing;
+        console.log(inventoryShowing);
+        (inventoryShowing) ? showInventory() : hideInventory(); 
+    }
 }
 
 function createGroup(length, color, y, diameter) {
@@ -57,18 +63,20 @@ function changeX(sprite, x) {
 }
 
 function changeY(sprite, y) {
-    changePos(sprite, 0, y)
+    changePos(sprite, 0, y);
 }
 
 function showInventory() {
-    
+    changePos(inventory.sprite, width / 2 + 50, 75);
 }
 
 function hideInventory() {
-
+    changePos(inventory.sprite, -500, -500);
 }
 
 window.onload = () => {
     console.log(document.getElementsByTagName("canvas"));
     console.log(document.getElementsByTagName("canvas").length);
 }
+
+

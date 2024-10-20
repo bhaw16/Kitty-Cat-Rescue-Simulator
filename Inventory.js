@@ -8,6 +8,7 @@ class Inventory extends Array {
         if (!Array.isArray(array)) {
             throw new TypeError("Error: Expected an array for this Inventory constructor's argument but received a different type.");
         }
+        super();
         for (var i = 0; i < array.length; i++) {
             if (!(array[i] instanceof Item)) {
                 throw new TypeError("Error: Expected an Item for item but received a different type.");
@@ -16,7 +17,7 @@ class Inventory extends Array {
                 this.push(array[i]);
             }
         }
-        this.sprite = new Sprite(-500, -500, windowWidth - 50, windowHeight - 50, "none");
+        this.sprite = new Sprite(-500, -500, 1000, (windowHeight - 50) / 4, "k");
     }
 
     push(item) {
