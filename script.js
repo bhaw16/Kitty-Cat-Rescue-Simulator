@@ -1,4 +1,5 @@
-var startButton, disclaimers, inventory;
+var startButton, inventoryButton;
+var disclaimers, inventory;
 
 function preload() {
 
@@ -18,13 +19,15 @@ function setup() {
         new Item(treatSprite.text, treatSprite, "initial")
     ];
     inventory = new Inventory(initialItems);
-    
+    inventoryButton = new Sprite(-90, -90, 100, 100);
+    inventoryButton.text = "inventory";
 }
 
 function draw() {
     if (startButton.mouse.presses()) {
         background("pink");
-        startButton.pos = {x: -900, y: -900};
+        changePos(startButton, -900, -900);
+        changePos(inventoryButton, width - 50, 20);
     }
 }
 
