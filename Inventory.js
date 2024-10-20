@@ -17,7 +17,7 @@ class Inventory extends Array {
                 this.push(array[i]);
             }
         }
-        this.sprite = new Sprite(-500, -500, 1000, (windowHeight - 50) / 4, "k");
+        this.sprite = new Sprite(-500, -500, 1000, (height - 50) / 4);
     }
 
     push(item) {

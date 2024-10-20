@@ -74,11 +74,13 @@ function changeY(sprite, y) {
 function showInventory() {
     changePos(inventory.sprite, width / 2 + 50, 75);
     console.log("inventory showing");
+    console.log(`{x: ${inventory.sprite.x}, y: ${inventory.sprite.y}}`);
 }
 
 function hideInventory() {
     changePos(inventory.sprite, -9000, -9000);
     console.log("inventory hidden");
+    console.log(`{x: ${inventory.sprite.x}, y: ${inventory.sprite.y}}`);
 }
 
 window.onload = () => {
