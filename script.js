@@ -28,6 +28,9 @@ function setup() {
     catCarrierSprite.text = "cat carrier";
     treatSprite.color = "#8ace00";
     treatSprite.text = "churu treat";
+    catCarrierSprite.drag = 5;
+    treatSprite.drag = 5;
+
     var initialItems = [
         new Item(catCarrierSprite.text, catCarrierSprite, "initial"),
         new Item(treatSprite.text, treatSprite, "initial")
@@ -56,6 +59,14 @@ function draw() {
     }
     if (inventoryShowing) {
         showInventory();
+        if (onStoryScreen) {
+            //console.log(inventory[0].sprite.mouse.drags());
+            //console.log(inventory[1].sprite.mouse.drags());
+            if (inventory[0].sprite.mouse.dragging())
+                inventory[0].dragItem();
+            if (inventory[1].sprite.mouse.dragging())
+                inventory[1].dragItem();
+        }
     } else {
         background(currBackgroundColor);
         //console.log();
@@ -65,10 +76,10 @@ function draw() {
 
 function mousePressed() {
     try {
-        if (currentTextIndex + 1 >= storyText.length) {
-            throw new RangeError();
-        }
         if (onStoryScreen && !inventoryButton.mouse.presses()) {
+            if (currentTextIndex + 1 >= storyText.length) {
+                throw new RangeError();
+            }
             currentText.text = storyText[++currentTextIndex];
         }
     }

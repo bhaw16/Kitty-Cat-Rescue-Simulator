@@ -26,4 +26,12 @@ class Item {
         this.sprite = sprite;
         this.category = category;
     }
+
+    checkClick() {
+        return this.sprite.mouse.presses();
+    }
+
+    dragItem() {
+        this.sprite.moveTowards(mouseX + this.sprite.mouse.x, mouseY + this.sprite.mouse.y, 1);
+    }
 }
