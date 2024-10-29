@@ -64,7 +64,7 @@ function setup() {
     var catSprite = new Sprite(-2000, -2000, 120, 150, "k");
     catSprite.color = "orange";
     myCat = new Cat(catSprite, "American Shorthair", true);
-    foodBowl = waterBowl = myCat.sprite;
+    foodBowl = waterBowl = catSprite;
     foodBowl.color = "red";
     waterBowl.color = "blue";
     goToVet = new Sprite(-800, -800, 150, 50);
