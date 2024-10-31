@@ -64,8 +64,9 @@ function setup() {
     var catSprite = new Sprite(-2000, -2000, 120, 150, "k");
     catSprite.color = "orange";
     myCat = new Cat(catSprite, "American Shorthair", true);
-    foodBowl = waterBowl = catSprite;
+    foodBowl = new Sprite(-975, -975);
     foodBowl.color = "red";
+    waterBowl = new Sprite(-875, -875);
     waterBowl.color = "blue";
     goToVet = new Sprite(-800, -800, 150, 50);
     goToVet.text = "Go to Vet";
@@ -107,30 +108,35 @@ function draw() {
     if (goToVet.mouse.presses()) {
         onStoryScreen = false;
         onVetScreen = true;
+        background("gold");
         currBackgroundColor = "gold";
         changePos(goToVet, -750, -750);
         changePos(currentText, -950, -950);
         changePos(currentVText, width / 2, 85);
     }
     if (raiseCat.mouse.presses()) {
-        currBackgroundColor = "indigo";
+        background("lavender");
+        currBackgroundColor = "lavender";
         changePos(raiseCat, -7500, -7500);
         changePos(currentVText, -10000, -10000);
-        document.getElementsByTagName("canvas")[0].insertAdjacentElement("afterend", document.createElement("h1"));
+        document.getElementsByTagName("canvas")[0].insertAdjacentElement("beforebegin", document.createElement("h1"));
         document.getElementsByTagName("h1")[0].innerText = "Details about your in-game actions will be displayed here.";
         changePos(myCat.sprite, width / 2, height / 2);
         changePos(foodBowl, myCat.sprite.x - 35, myCat.sprite.y);
         changePos(waterBowl, myCat.sprite.x + 35, myCat.sprite.y);
-        myCat.sprite.visible = true;
         onVetScreen = false;
+        /*
         if (myCat.sprite.mouse.presses()) {
             document.getElementsByTagName("h1")[0].innerText = "Cat pet!";
         }
-        /*
-        if (mouseIsPressed && myCat.sprite.mouse.hovers()) {
+        */
+        
+        if (myCat.sprite.mouse.pressing()) {
             catPet = true;
             document.getElementsByTagName("h1")[0].innerText = "Petting cat...";
+            console.log("Petting cat...");
         }
+        /*
         else {
             if (catPet) {
                 document.getElementsByTagName("h1")[0].innerText = "Cat pet!";
@@ -140,7 +146,7 @@ function draw() {
             }
             catPet = false;
         }
-            */
+        */
     }
 }
 

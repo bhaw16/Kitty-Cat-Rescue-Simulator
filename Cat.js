@@ -24,7 +24,7 @@ class Cat {
         this.hasMicrochip = hasMicrochip;
         this.hasOwner = false && hasMicrochip;
         //this.needs = needs;
-        sprite.debug = true;
+        //sprite.debug = true;
     }
 
     checkNeeds() {
