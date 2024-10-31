@@ -18,6 +18,8 @@ var vetText = [
 var myCat, raiseCat;
 var catPet = false;
 var foodBowl, waterBowl;
+var feedButton, waterButton;
+var willFeed = false;
 
 function ownerText(cat) {
     if (!(cat instanceof Cat)) {
@@ -61,14 +63,20 @@ function setup() {
     inventoryButton = new Sprite(-90, -90, 100, 100);
     inventoryButton.text = "inventory";
     allSprites.rotationLock = true;
-    var catSprite = new Sprite(-2000, -2000, 120, 150, "k");
-    catSprite.color = "orange";
-    myCat = new Cat(catSprite, "American Shorthair", true);
+    myCat = new Cat(new Sprite(-2000, -2000, 120, 150), "American Shorthair", true);
+    myCat.sprite.color = "orange";
+    myCat.sprite.text = myCat.breed;
     foodBowl = new Sprite(-975, -975);
     foodBowl.color = "red";
+    foodBowl.text = "food bowl";
     waterBowl = new Sprite(-875, -875);
     waterBowl.color = "blue";
-    goToVet = new Sprite(-800, -800, 150, 50);
+    waterBowl.text = "water bowl";
+    feedButton = new Sprite(-400, -400, 150, 50);
+    waterButton = new Sprite(-450, -450, feedButton.w, feedButton.h);
+    feedButton.text = "Feed";
+    waterButton.text = "Give Water";
+    goToVet = new Sprite(-800, -800, waterButton.w, waterButton.h);
     goToVet.text = "Go to Vet";
     goToVet.color = "lavender";
     raiseCat = new Sprite(-1000, -1000, goToVet.w, goToVet.h);
@@ -121,6 +129,8 @@ function draw() {
         changePos(currentVText, -10000, -10000);
         document.getElementsByTagName("canvas")[0].insertAdjacentElement("beforebegin", document.createElement("h1"));
         document.getElementsByTagName("h1")[0].innerText = "Details about your in-game actions will be displayed here.";
+        changePos(feedButton, (width / 2 - 15), 100);
+        changePos(waterButton, (width / 2 + 15), feedButton.y);
         changePos(myCat.sprite, width / 2, height / 2);
         changePos(foodBowl, myCat.sprite.x - 35, myCat.sprite.y);
         changePos(waterBowl, myCat.sprite.x + 35, myCat.sprite.y);
@@ -130,8 +140,16 @@ function draw() {
             document.getElementsByTagName("h1")[0].innerText = "Cat pet!";
         }
         */
-        
-        if (myCat.sprite.mouse.pressing()) {
+       if (feedButton.mouse.presses()) {
+            willFeed = true; 
+       }
+       if (willFeed && foodBowl.mouse.presses()) {
+            console.log("Cat fed!");
+            document.getElementsByTagName("h1")[0].innerText = "Cat fed!";
+            resetHeaderText();
+            //willFeed = false;
+        }
+        if (myCat.sprite.mouse.drags()) {
             catPet = true;
             document.getElementsByTagName("h1")[0].innerText = "Petting cat...";
             console.log("Petting cat...");
@@ -148,6 +166,12 @@ function draw() {
         }
         */
     }
+}
+
+function resetHeaderText() {
+    setTimeout(timerHandler = () => {
+        document.getElementsByTagName("h1")[0].innerText = "Details about your in-game actions will be displayed here.";
+    }, 3000);
 }
 
 function mousePressed() {
