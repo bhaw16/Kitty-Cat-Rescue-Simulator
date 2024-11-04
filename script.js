@@ -10,7 +10,7 @@ var storyText = [
 ], currentText, currentTextIndex = 0;
 var inventoryShowing = false;
 var currBackgroundColor;
-var onStoryScreen = false, onVetScreen = false;
+var onStoryScreen = false, onVetScreen = false, raisingCat = false;
 var vetText = [
     "Good news! The cat is healthy!",
     "Since it has a microchip, we need to check if it has an owner."
@@ -135,6 +135,8 @@ function draw() {
         changePos(foodBowl, myCat.sprite.x - 35, myCat.sprite.y);
         changePos(waterBowl, myCat.sprite.x + 35, myCat.sprite.y);
         onVetScreen = false;
+        raisingCat = true;
+        petCat();
         /*
         if (myCat.sprite.mouse.presses()) {
             document.getElementsByTagName("h1")[0].innerText = "Cat pet!";
@@ -148,12 +150,12 @@ function draw() {
             document.getElementsByTagName("h1")[0].innerText = "Cat fed!";
             resetHeaderText();
             //willFeed = false;
-        }
+        }/*
         if (myCat.sprite.mouse.drags()) {
             catPet = true;
             document.getElementsByTagName("h1")[0].innerText = "Petting cat...";
             console.log("Petting cat...");
-        }
+        }*/
         /*
         else {
             if (catPet) {
@@ -198,6 +200,20 @@ function mousePressed() {
     catch(RangeError) {
         console.log("No more story text to cycle through.");
     }
+}
+
+function petCat() {
+    if (raisingCat) {
+        if (myCat.sprite.mouse.presses()) {
+            console.log("Petting cat...");
+            document.getElementsByTagName("h1")[0].innerText = "Petting cat...";
+            resetHeaderText();
+        }
+    }
+}
+
+function mouseDragged() {
+    petCat();
 }
 
 function createGroup(length, color, y, diameter) {
