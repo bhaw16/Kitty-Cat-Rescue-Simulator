@@ -129,45 +129,35 @@ function draw() {
         changePos(currentVText, -10000, -10000);
         document.getElementsByTagName("canvas")[0].insertAdjacentElement("beforebegin", document.createElement("h1"));
         document.getElementsByTagName("h1")[0].innerText = "Details about your in-game actions will be displayed here.";
-        changePos(feedButton, (width / 2 - 15), 100);
-        changePos(waterButton, (width / 2 + 15), feedButton.y);
+        changePos(feedButton, width / 2, 100);
+        changePos(waterButton, width / 2, feedButton.y + feedButton.h + 15);
         changePos(myCat.sprite, width / 2, height / 2);
         changePos(foodBowl, myCat.sprite.x - 35, myCat.sprite.y);
         changePos(waterBowl, myCat.sprite.x + 35, myCat.sprite.y);
         onVetScreen = false;
         raisingCat = true;
-        petCat();
-        /*
-        if (myCat.sprite.mouse.presses()) {
-            document.getElementsByTagName("h1")[0].innerText = "Cat pet!";
-        }
-        */
-       if (feedButton.mouse.presses()) {
-            willFeed = true; 
-       }
+       /*
        if (willFeed && foodBowl.mouse.presses()) {
             console.log("Cat fed!");
             document.getElementsByTagName("h1")[0].innerText = "Cat fed!";
             resetHeaderText();
             //willFeed = false;
-        }/*
-        if (myCat.sprite.mouse.drags()) {
-            catPet = true;
-            document.getElementsByTagName("h1")[0].innerText = "Petting cat...";
-            console.log("Petting cat...");
-        }*/
-        /*
-        else {
-            if (catPet) {
-                document.getElementsByTagName("h1")[0].innerText = "Cat pet!";
-            setTimeout(timerHandler = () => {
-                document.getElementsByTagName("h1")[0].innerText = "Details about your in-game actions will be displayed here.";
-            }, 3000);
-            }
-            catPet = false;
         }
         */
     }
+    petCat();
+    if (feedButton.mouse.presses()) {
+        willFeed = true;
+        console.log("Feeding cat...");
+        document.getElementsByTagName("h1")[0].innerText = "Feeding cat...";
+   }
+   if (willFeed) {
+        if (foodBowl.mouse.presses()) {
+            console.log("Cat fed!");
+            document.getElementsByTagName("h1")[0].innerText = "Cat fed!";
+            resetHeaderText();
+        } 
+   }
 }
 
 function resetHeaderText() {
