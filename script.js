@@ -18,8 +18,9 @@ var vetText = [
 var myCat, raiseCat;
 var catPet = false;
 var foodBowl, waterBowl;
-var feedButton, waterButton;
-var willFeed = false;
+var feedButton, waterButton, petButton, groomButton;
+var willFeed = false, willHydrate = false, pettingCat = false, groomingCat = false
+var catWasPet = false, catWasGroomed = false;
 
 function ownerText(cat) {
     if (!(cat instanceof Cat)) {
@@ -74,8 +75,12 @@ function setup() {
     waterBowl.text = "water bowl";
     feedButton = new Sprite(-400, -400, 150, 50);
     waterButton = new Sprite(-450, -450, feedButton.w, feedButton.h);
+    groomButton = new Sprite(-709, -709, waterButton.w, waterButton.h);
+    petButton = new Sprite(-809, -809, groomButton.w, groomButton.h);
     feedButton.text = "Feed";
     waterButton.text = "Give Water";
+    groomButton.text = "Groom";
+    petButton.text = "Pet";
     goToVet = new Sprite(-800, -800, waterButton.w, waterButton.h);
     goToVet.text = "Go to Vet";
     goToVet.color = "lavender";
@@ -131,6 +136,8 @@ function draw() {
         document.getElementsByTagName("h1")[0].innerText = "Details about your in-game actions will be displayed here.";
         changePos(feedButton, width / 2, 100);
         changePos(waterButton, width / 2, feedButton.y + feedButton.h + 15);
+        changePos(petButton, width / 2, waterButton.y + waterButton.h + 15);
+        changePos(groomButton, width / 2, petButton.y + petButton.h + 15);
         changePos(myCat.sprite, width / 2, height / 2);
         changePos(foodBowl, myCat.sprite.x - 35, myCat.sprite.y);
         changePos(waterBowl, myCat.sprite.x + 35, myCat.sprite.y);
@@ -145,7 +152,6 @@ function draw() {
         }
         */
     }
-    petCat();
     if (feedButton.mouse.presses()) {
         willFeed = true;
         console.log("Feeding cat...");
@@ -156,8 +162,52 @@ function draw() {
             console.log("Cat fed!");
             document.getElementsByTagName("h1")[0].innerText = "Cat fed!";
             resetHeaderText();
+            willFeed = false;
         } 
    }
+   if (waterButton.mouse.presses()) {
+    willHydrate = true;
+    console.log("Giving cat water...");
+    document.getElementsByTagName("h1")[0].innerText = "Giving cat water...";
+    }
+    if (willHydrate) {
+        if (waterBowl.mouse.presses()) {
+            console.log("Cat hydrated!");
+            document.getElementsByTagName("h1")[0].innerText = "Cat hydrated!";
+            resetHeaderText();
+            willHydrate = false;
+        } 
+    }
+    if (petButton.mouse.presses()) {
+        pettingCat = true;
+        console.log("Click and/or drag the mouse on your cat's fur to pet it.");
+        document.getElementsByTagName("h1")[0].innerText = "Click and/or drag the mouse on your cat's fur to pet it.";
+    }
+    if (groomButton.mouse.presses()) {
+        groomingCat = true;
+        console.log("Click and/or drag the mouse on your cat's fur to groom it.");
+        document.getElementsByTagName("h1")[0].innerText = "Click and/or drag the mouse on your cat's fur to groom it.";
+    }
+    if (myCat.sprite.mouse.pressing() || myCat.sprite.mouse.dragging()) {
+        if (pettingCat) {
+            petCat();
+            catWasPet = true;
+        }
+        if (groomingCat) {
+            groomCat();
+            catWasGroomed = true;
+        }
+    }
+    else {
+        if ((catWasPet || catWasGroomed) && !willFeed && !willHydrate) {
+            resetHeaderText();
+            groomingCat = false;
+            pettingCat = false;
+            catWasPet = false;
+            catWasGroomed = false;
+        }
+    }
+    
 }
 
 function resetHeaderText() {
@@ -193,19 +243,19 @@ function mousePressed() {
 }
 
 function petCat() {
-    if (raisingCat) {
-        if (myCat.sprite.mouse.presses()) {
-            console.log("Petting cat...");
-            document.getElementsByTagName("h1")[0].innerText = "Petting cat...";
-            resetHeaderText();
-        }
-    }
+    console.log("Petting cat...");
+    document.getElementsByTagName("h1")[0].innerText = "Petting cat...";
 }
 
+function groomCat() {
+    console.log("Grooming cat...");
+    document.getElementsByTagName("h1")[0].innerText = "Grooming cat...";
+}
+/*
 function mouseDragged() {
     petCat();
 }
-
+*/
 function createGroup(length, color, y, diameter) {
     var group = new Group();
     group.y = y;
