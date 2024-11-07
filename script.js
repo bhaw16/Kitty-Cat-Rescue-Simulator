@@ -18,8 +18,8 @@ var vetText = [
 var myCat, raiseCat;
 var catPet = false;
 var foodBowl, waterBowl;
-var feedButton, waterButton, petButton, groomButton;
-var willFeed = false, willHydrate = false, pettingCat = false, groomingCat = false
+var feedButton, waterButton, petButton, groomButton, playButton;
+var willFeed = false, willHydrate = false, pettingCat = false, groomingCat = false, isPlaying = false;
 var catWasPet = false, catWasGroomed = false;
 
 function ownerText(cat) {
@@ -77,10 +77,12 @@ function setup() {
     waterButton = new Sprite(-450, -450, feedButton.w, feedButton.h);
     groomButton = new Sprite(-709, -709, waterButton.w, waterButton.h);
     petButton = new Sprite(-809, -809, groomButton.w, groomButton.h);
+    playButton = new Sprite(-909, -909, petButton.w, petButton.h);
     feedButton.text = "Feed";
     waterButton.text = "Give Water";
     groomButton.text = "Groom";
     petButton.text = "Pet";
+    playButton.text = "Play";
     goToVet = new Sprite(-800, -800, waterButton.w, waterButton.h);
     goToVet.text = "Go to Vet";
     goToVet.color = "lavender";
@@ -138,6 +140,7 @@ function draw() {
         changePos(waterButton, width / 2, feedButton.y + feedButton.h + 15);
         changePos(petButton, width / 2, waterButton.y + waterButton.h + 15);
         changePos(groomButton, width / 2, petButton.y + petButton.h + 15);
+        changePos(playButton, width / 2, groomButton.y + groomButton.h + 15);
         changePos(myCat.sprite, width / 2, height / 2);
         changePos(foodBowl, myCat.sprite.x - 35, myCat.sprite.y);
         changePos(waterBowl, myCat.sprite.x + 35, myCat.sprite.y);
@@ -183,7 +186,7 @@ function draw() {
         console.log("Click and/or drag the mouse on your cat's fur to pet it.");
         document.getElementsByTagName("h1")[0].innerText = "Click and/or drag the mouse on your cat's fur to pet it.";
     }
-    if (groomButton.mouse.presses()) {
+    else if (groomButton.mouse.presses()) {
         groomingCat = true;
         console.log("Click and/or drag the mouse on your cat's fur to groom it.");
         document.getElementsByTagName("h1")[0].innerText = "Click and/or drag the mouse on your cat's fur to groom it.";
@@ -207,7 +210,12 @@ function draw() {
             catWasGroomed = false;
         }
     }
-    
+    if (playButton.mouse.presses()) {
+        isPlaying = true;
+    }
+    if (isPlaying) {
+        mouseHunt();
+    }
 }
 
 function resetHeaderText() {
@@ -227,7 +235,7 @@ function mousePressed() {
                 changePos(goToVet, width / 2, height / 2);
             }
         }
-        if (onVetScreen && !inventoryButton.mouse.presses()) {
+        else if (onVetScreen && !inventoryButton.mouse.presses()) {
             if (vTextIndex + 1 >= currentVText.length) {
                 throw new RangeError();
             }
@@ -251,11 +259,7 @@ function groomCat() {
     console.log("Grooming cat...");
     document.getElementsByTagName("h1")[0].innerText = "Grooming cat...";
 }
-/*
-function mouseDragged() {
-    petCat();
-}
-*/
+
 function createGroup(length, color, y, diameter) {
     var group = new Group();
     group.y = y;
@@ -283,6 +287,11 @@ function changeX(sprite, x) {
 
 function changeY(sprite, y) {
     changePos(sprite, 0, y);
+}
+
+function mouseHunt() {
+    background(currBackgroundColor);
+    allSprites.visible = false;
 }
 
 function showInventory() {
