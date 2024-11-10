@@ -22,7 +22,8 @@ var feedButton, waterButton, petButton, groomButton, playButton;
 var willFeed = false, willHydrate = false, pettingCat = false, groomingCat = false, isPlaying = false;
 var catWasPet = false, catWasGroomed = false;
 var furniture;
-var mouseSqueak;
+var mouseSqueak, catPurring, catImg;
+var playDirections = "Every square is a piece of furniture.\nYour cat's mouse toy is hidden behind a random piece of furniture.\nYou have 30 seconds to help your cat find its toy.\nThere's a challenge though: the mouse moves behind a different piece of furniture every 5 seconds!";
 
 function ownerText(cat) {
     if (!(cat instanceof Cat)) {
@@ -32,7 +33,9 @@ function ownerText(cat) {
 }
 
 function preload() {
+    catImg = loadImage("assets/images/American-Shorthair.png");
     soundFormats("mp3");
+    catPurring = loadSound("assets/sound/cat-purring.mp3");
     mouseSqueak = loadSound("assets/sound/mouse-squeak.mp3");
 }
 
@@ -54,7 +57,6 @@ function setup() {
     treatSprite.text = "churu treat";
     catCarrierSprite.drag = 5;
     treatSprite.drag = 5;
-
     var initialItems = [
         new Item(catCarrierSprite.text, catCarrierSprite, "initial"),
         new Item(treatSprite.text, treatSprite, "initial")
@@ -69,9 +71,10 @@ function setup() {
     inventoryButton = new Sprite(-90, -90, 100, 100);
     inventoryButton.text = "inventory";
     allSprites.rotationLock = true;
-    myCat = new Cat(new Sprite(-2000, -2000, 120, 150), "American Shorthair", true);
+    catImg.resize(375, 250);
+    myCat = new Cat(new Sprite(catImg, -2000, -2000, catImg.width, catImg.height), "American Shorthair", true);
     myCat.sprite.color = "orange";
-    myCat.sprite.text = myCat.breed;
+    //myCat.sprite.text = myCat.breed;
     foodBowl = new Sprite(-975, -975);
     foodBowl.color = "red";
     foodBowl.text = "food bowl";
@@ -192,6 +195,8 @@ function draw() {
         if (pettingCat) {
             petCat();
             catWasPet = true;
+            if(!catPurring.isPlaying())
+                catPurring.loop();
         }
         if (groomingCat) {
             groomCat();
@@ -205,6 +210,7 @@ function draw() {
             pettingCat = false;
             catWasPet = false;
             catWasGroomed = false;
+            catPurring.stop();
         }
     }
     if (playButton.mouse.presses()) {
@@ -311,7 +317,7 @@ function displayHome() {
 }
 
 function mouseHunt() {
-    setInterval(displayTime = () => {
+    /*setInterval(displayTime = () => {
         gameTime = gameEnd - Date.now();
         var timeLeft = (Math.floor((gameTime % (1000 * 60)) / 1000));
         background(currBackgroundColor);
@@ -322,7 +328,13 @@ function mouseHunt() {
         }
         textSize(72);
         text(`Time Left: ${timeLeft}s`, width / 2, 55);
-    }, 1000);   //doesn't work
+    }, 1000);*/   //doesn't work
+    background(currBackgroundColor);
+    for (var i = 0; i < furniture.length; i++) {
+        changePos(furniture[i], Math.abs(furniture[i].x), Math.abs(furniture[i].y));
+    }
+    console.log(playDirections);
+    document.getElementsByTagName("h1")[0].innerText = playDirections;
     var hiddenMouseLocation = random(furniture);
     var randomizeMouse = setInterval(hideMouse = () => {
         hiddenMouseLocation = random(furniture);
