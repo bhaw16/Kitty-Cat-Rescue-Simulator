@@ -322,7 +322,7 @@ function mouseHunt() {
         }
         textSize(72);
         text(`Time Left: ${timeLeft}s`, width / 2, 55);
-    }, 1000);
+    }, 1000);   //doesn't work
     var hiddenMouseLocation = random(furniture);
     var randomizeMouse = setInterval(hideMouse = () => {
         hiddenMouseLocation = random(furniture);
