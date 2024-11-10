@@ -21,8 +21,10 @@ var foodBowl, waterBowl;
 var feedButton, waterButton, petButton, groomButton, playButton;
 var willFeed = false, willHydrate = false, pettingCat = false, groomingCat = false, isPlaying = false;
 var catWasPet = false, catWasGroomed = false;
+var catWasFed = false, catWasHydrated = false, played = false, groomingDone = false, pettingDone = false;
 var furniture;
 var mouseSqueak, catPurring, catImg;
+var finishGameButton;
 var playDirections = "Every square is a piece of furniture.\nYour cat's mouse toy is hidden behind a random piece of furniture.\nYou have 30 seconds to help your cat find its toy.\nThere's a challenge though: the mouse moves behind a different piece of furniture every 5 seconds!";
 
 function ownerText(cat) {
@@ -96,6 +98,9 @@ function setup() {
     goToVet.color = "lavender";
     raiseCat = new Sprite(-1000, -1000, goToVet.w, goToVet.h);
     raiseCat.text = "Raise it!";
+    finishGameButton = new Sprite(-2834, -2834, raiseCat.w, raiseCat.h);
+    finishGameButton.text = "End Game";
+    finishGameButton.color = "white";
     raiseCat.color = goToVet.color;
     vetText.push(ownerText(myCat));
     furniture = new Group();
@@ -166,6 +171,7 @@ function draw() {
             document.getElementsByTagName("h1")[0].innerText = "Cat fed!";
             resetHeaderText();
             willFeed = false;
+            catWasFed = true;
         } 
    }
    if (waterButton.mouse.presses()) {
@@ -179,6 +185,7 @@ function draw() {
             document.getElementsByTagName("h1")[0].innerText = "Cat hydrated!";
             resetHeaderText();
             willHydrate = false;
+            catWasHydrated = true;
         } 
     }
     if (petButton.mouse.presses()) {
@@ -197,10 +204,12 @@ function draw() {
             catWasPet = true;
             if(!catPurring.isPlaying())
                 catPurring.loop();
+            pettingDone = true;
         }
         if (groomingCat) {
             groomCat();
             catWasGroomed = true;
+            groomingDone = true;
         }
     }
     else {
@@ -222,6 +231,14 @@ function draw() {
     else {
         if (raisingCat)
             displayHome();
+    }
+    if (catWasFed && catWasHydrated && played && groomingDone && pettingDone) {
+        changePos(finishGameButton, width / 2, myCat.sprite.y + 150);
+    }
+    if (finishGameButton.mouse.presses()) {
+        allSprites.visible = false;
+        document.getElementsByTagName("h1")[0].innerText = "Woohoo! You beat Kitty Cat Rescue Simulator!";
+        console.log("Woohoo! You beat Kitty Cat Rescue Simulator!");
     }
 }
 
@@ -346,6 +363,7 @@ function mouseHunt() {
         document.getElementsByTagName("h1")[0].innerText = "Your cat did not find the mouse.";
         resetHeaderText();
         clearTimeout(randomizeMouse);
+        played = true;
         isPlaying = false;
     }, 30 * 1000);
     changePos(myCat.sprite, -2000, -2000);
@@ -363,6 +381,7 @@ function mouseHunt() {
         clearInterval(randomizeMouse);
         clearTimeout(mouseNotFound);
         isPlaying = false;
+        played = true;
     }
 }
 
