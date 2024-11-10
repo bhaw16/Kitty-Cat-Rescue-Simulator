@@ -21,6 +21,8 @@ var foodBowl, waterBowl;
 var feedButton, waterButton, petButton, groomButton, playButton;
 var willFeed = false, willHydrate = false, pettingCat = false, groomingCat = false, isPlaying = false;
 var catWasPet = false, catWasGroomed = false;
+var furniture;
+var mouseSqueak;
 
 function ownerText(cat) {
     if (!(cat instanceof Cat)) {
@@ -30,13 +32,16 @@ function ownerText(cat) {
 }
 
 function preload() {
-
+    soundFormats("mp3");
+    mouseSqueak = loadSound("assets/sound/mouse-squeak.mp3");
 }
 
 function setup() {
     createCanvas(1500, 1500);
     background("blue");
     currBackgroundColor = "blue";
+    mouseSqueak.playMode("untilDone");
+    mouseSqueak.setLoop(false);
     startButton = new Sprite(width / 2, height / 2, 100, 50);
     startButton.color = "white";
     startButton.text = "Start";
@@ -90,6 +95,11 @@ function setup() {
     raiseCat.text = "Raise it!";
     raiseCat.color = goToVet.color;
     vetText.push(ownerText(myCat));
+    furniture = new Group();
+    new furniture.Sprite(-333, -333);
+    new furniture.Sprite(-111, -111);
+    new furniture.Sprite(-222, -222);
+    new furniture.Sprite(-444, -444);
 }
 
 function draw() {
@@ -130,22 +140,9 @@ function draw() {
         changePos(currentVText, width / 2, 85);
     }
     if (raiseCat.mouse.presses()) {
-        background("lavender");
-        currBackgroundColor = "lavender";
-        changePos(raiseCat, -7500, -7500);
-        changePos(currentVText, -10000, -10000);
         document.getElementsByTagName("canvas")[0].insertAdjacentElement("beforebegin", document.createElement("h1"));
         document.getElementsByTagName("h1")[0].innerText = "Details about your in-game actions will be displayed here.";
-        changePos(feedButton, width / 2, 100);
-        changePos(waterButton, width / 2, feedButton.y + feedButton.h + 15);
-        changePos(petButton, width / 2, waterButton.y + waterButton.h + 15);
-        changePos(groomButton, width / 2, petButton.y + petButton.h + 15);
-        changePos(playButton, width / 2, groomButton.y + groomButton.h + 15);
-        changePos(myCat.sprite, width / 2, height / 2);
-        changePos(foodBowl, myCat.sprite.x - 35, myCat.sprite.y);
-        changePos(waterBowl, myCat.sprite.x + 35, myCat.sprite.y);
-        onVetScreen = false;
-        raisingCat = true;
+        displayHome();
        /*
        if (willFeed && foodBowl.mouse.presses()) {
             console.log("Cat fed!");
@@ -215,6 +212,10 @@ function draw() {
     }
     if (isPlaying) {
         mouseHunt();
+    }
+    else {
+        if (raisingCat)
+            displayHome();
     }
 }
 
@@ -289,9 +290,68 @@ function changeY(sprite, y) {
     changePos(sprite, 0, y);
 }
 
+function displayHome() {
+    background("lavender");
+    currBackgroundColor = "lavender";
+    changePos(raiseCat, -7500, -7500);
+    changePos(currentVText, -10000, -10000);
+    changePos(feedButton, width / 2, 100);
+    changePos(waterButton, width / 2, feedButton.y + feedButton.h + 15);
+    changePos(petButton, width / 2, waterButton.y + waterButton.h + 15);
+    changePos(groomButton, width / 2, petButton.y + petButton.h + 15);
+    changePos(playButton, width / 2, groomButton.y + groomButton.h + 15);
+    changePos(myCat.sprite, width / 2, height / 2);
+    changePos(foodBowl, myCat.sprite.x - myCat.sprite.w / 2 - 35, myCat.sprite.y);
+    changePos(waterBowl, myCat.sprite.x + myCat.sprite.w / 2 + 35, myCat.sprite.y);
+    for (var i = 0; i < furniture.length; i++) {
+        changePos(furniture[i], (i + 1) * 111 * -1, furniture[i].x);
+    }
+    onVetScreen = false;
+    raisingCat = true;
+}
+
 function mouseHunt() {
-    background(currBackgroundColor);
-    allSprites.visible = false;
+    setInterval(displayTime = () => {
+        gameTime = gameEnd - Date.now();
+        var timeLeft = (Math.floor((gameTime % (1000 * 60)) / 1000));
+        background(currBackgroundColor);
+        var gameEnd = Date.now() + 30;
+        var gameTime;
+        for (var i = 0; i < furniture.length; i++) {
+            changePos(furniture[i], Math.abs(furniture[i].x), Math.abs(furniture[i].y));
+        }
+        textSize(72);
+        text(`Time Left: ${timeLeft}s`, width / 2, 55);
+    }, 1000);
+    var hiddenMouseLocation = random(furniture);
+    var randomizeMouse = setInterval(hideMouse = () => {
+        hiddenMouseLocation = random(furniture);
+        //mouseSqueak.play();
+        //console.log(mouseSqueak.isLooping());
+    }, 5000);
+    var mouseNotFound = setTimeout(callTime = () => {
+        console.log("Your cat did not find the mouse.");
+        document.getElementsByTagName("h1")[0].innerText = "Your cat did not find the mouse.";
+        resetHeaderText();
+        clearTimeout(randomizeMouse);
+        isPlaying = false;
+    }, 30 * 1000);
+    changePos(myCat.sprite, -2000, -2000);
+    changePos(waterBowl, -875, -875);
+    changePos(foodBowl, -975, -975);
+    changePos(waterButton, -450, -450);
+    changePos(feedButton, -400, -400);
+    changePos(groomButton, -709, -709);
+    changePos(petButton, -809, -809);
+    changePos(playButton, -909, -909);
+    if (hiddenMouseLocation.mouse.presses()) {
+        console.log("Your cat found the mouse!");
+        document.getElementsByTagName("h1")[0].innerText = "Your cat found the mouse!";
+        resetHeaderText();
+        clearInterval(randomizeMouse);
+        clearTimeout(mouseNotFound);
+        isPlaying = false;
+    }
 }
 
 function showInventory() {
