@@ -22,7 +22,7 @@ var feedButton, waterButton, petButton, groomButton, playButton;
 var willFeed = false, willHydrate = false, pettingCat = false, groomingCat = false, isPlaying = false;
 var catWasPet = false, catWasGroomed = false;
 var catWasFed = false, catWasHydrated = false, played = false, groomingDone = false, pettingDone = false;
-var furniture;
+var furniture, gameBeat = false;
 var mouseSqueak, catPurring, catImg;
 var finishGameButton;
 var playDirections = "Every square is a piece of furniture.\nYour cat's mouse toy is hidden behind a random piece of furniture.\nYou have 30 seconds to help your cat find its toy.\nThere's a challenge though: the mouse moves behind a different piece of furniture every 5 seconds!";
@@ -237,6 +237,9 @@ function draw() {
     }
     if (finishGameButton.mouse.presses()) {
         allSprites.visible = false;
+        gameBeat = true;
+    }
+    if (gameBeat) {
         document.getElementsByTagName("h1")[0].innerText = "Woohoo! You beat Kitty Cat Rescue Simulator!";
         console.log("Woohoo! You beat Kitty Cat Rescue Simulator!");
     }
